@@ -6,6 +6,13 @@ def calculator_mode():
     print("4. Division (/)")
     operator = input("Enter an operator (+ - * /): ")
 
+    if operator.lower() == "switch":
+        conversion_mode()
+        return
+    elif operator.lower() == "exit":
+        exit()
+        return
+
     while operator != "+" and operator != "-" and operator != "*" and operator != "/":
         print(f"{operator} is not a valid operator")
         operator = input("Enter an operator (+ - * /): ")
@@ -31,6 +38,13 @@ def conversion_mode():
     print("2. Distance")
     category = input("Choose a category: ")
 
+    if category.lower() == "switch":
+        conversion_mode()
+        return
+    elif category.lower() == "exit":
+        exit()
+        return
+
     while category != "1" and category != "2":
         print(f"{category} is not a valid category")
         category = input("Choose a category: ")
@@ -40,6 +54,13 @@ def conversion_mode():
         print("1. Celsius to Farenheit")
         print("2. Celsius to Kelvin")
         convert_unit = input("Choose a unit to convert to: ")
+
+        if convert_unit.lower() == "switch":
+            conversion_mode()
+            return
+        elif convert_unit.lower() == "exit":
+            exit()
+            return
 
         while convert_unit != "1" and convert_unit != "2":
             print(f"{convert_unit} is not a valid unit")
@@ -61,6 +82,13 @@ def conversion_mode():
         print("2. Metres to Feet")
         print("3. Centimetres to Inches")
         convert_unit = input("Choose a unit to convert to: ")
+
+        if convert_unit.lower() == "switch":
+            conversion_mode()
+            return
+        elif convert_unit.lower() == "exit":
+            exit()
+            return
 
         while convert_unit != "1" and convert_unit != "2" and convert_unit != "3":
             print(f"{convert_unit} is not a valid unit")
@@ -86,9 +114,15 @@ def initialise():
     print("1. Calculator mode")
     print("2. Conversion mode")
     mode_switcher = input("Please choose a mode: ")
+
+    if mode_switcher.lower() == "exit":
+        exit()
+        return
+
     while mode_switcher not in ["1", "2"]:
         print(f"{mode_switcher} is not a valid mode")
         initialise()
+
     if mode_switcher == "1":
         calculator_mode()
     elif mode_switcher == "2":
