@@ -13,20 +13,20 @@ def calculator_mode():
         exit()
         return
 
-    while operator != "+" and operator != "-" and operator != "*" and operator != "/":
+    while operator not in ["+", "-", "*", "/", "1", "2", "3", "4"]:
         print(f"{operator} is not a valid operator")
         operator = input("Enter an operator (+ - * /): ")
 
     num1 = float(input("Enter the first number: "))
     num2 = float(input("Enter the second number: "))
 
-    if operator == "+":
+    if operator == "+" or operator == "1":
         result = num1 + num2
-    elif operator == "-":
+    elif operator == "-" or operator == "2":
         result = num1 - num2
-    elif operator == "*":
+    elif operator == "*" or operator == "3":
         result = num1 * num2
-    elif operator == "/":
+    elif operator == "/" or operator == "4":
         result = num1 / num2
 
     print(round(result, 5))
