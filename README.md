@@ -1,9 +1,5 @@
 ## Roadmap
 > Here are some things I want to create from easy to hard
-- [ ] Magic 8-Ball
-    - [ ] Random generator
-    - [ ] User input
-    - [ ] ASCII art
 - [ ] To-Do List
     - [ ] Add, view, remove, and complete tasks
     - [ ] Exit
@@ -12,3 +8,7 @@
     - [x] Unit conversion
     - [x] Mode switching
     - [x] Exit
+- [ ] Magic 8-Ball
+    - [x] Random response generator
+    - [ ] User input
+    - [ ] ASCII art
