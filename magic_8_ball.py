@@ -29,42 +29,49 @@ response_negative = [
     "Very doubtful",
 ]
 
-category = randint(1, 3)
 
-if category == 1:
-    counter = randint(1, 10)
-    response = response_affirmative[counter - 1]
-elif category == 2:
-    counter = randint(1, 5)
-    response = response_neutral[counter - 1]
-elif category == 3:
-    counter = randint(1, 5)
-    response = response_negative[counter - 1]
+def get_response():
+    category = randint(1, 3)
+    if category == 1:
+        counter = randint(1, 10)
+        response = response_affirmative[counter - 1]
+    elif category == 2:
+        counter = randint(1, 5)
+        response = response_neutral[counter - 1]
+    elif category == 3:
+        counter = randint(1, 5)
+        response = response_negative[counter - 1]
+    print(response)
+
+
+# def magic_8_ball():
 
 
 # let's just hope and pray it works…
 def loading_bar(duration=3, bar_length=30):
     start_char_empty = "\uEE00"  # U+EE00 ()
+    spacer = "\uEE01"  # U+EE01 ()
+    end_char_empty = "\uEE02"  # U+EE02 ()
     start_char_filled = "\uEE03"  # U+EE03 ()
     fill_char = "\uEE04"  # U+EE04 ()
-    end_char_empty = "\uEE02"  # U+EE02 ()
     end_char_filled = "\uEE05"  # U+EE05 ()
-    spacer = "\uEE01"  # U+EE01 ()
 
-    print("\nPredicting the Future...", end="")
+    print("\nThinking...", end="")
+    time.sleep(2 * duration / bar_length)
     for i in range(bar_length + 1):
         time.sleep(duration / bar_length)
         current_start_char = start_char_filled if i > 0 else start_char_empty
         current_end_char = end_char_filled if i == bar_length else end_char_empty
         sys.stdout.write(
-            f"\rThinking... {current_start_char}{fill_char * i}{spacer * (bar_length - i)}{current_end_char} {int((i / bar_length) * 100)}%"
+            f"\rPredicting... {current_start_char}{fill_char * i}{spacer * (bar_length - i)}{current_end_char} {int((i / bar_length) * 100)}%"
         )
         sys.stdout.flush()
     print()
-    time.sleep(duration / 2)
+    time.sleep(duration / 3)
     print()
 
 
 # final output
-loading_bar(duration=3, bar_length=20)
-print(response)
+# magic_8_ball()
+loading_bar(duration=4, bar_length=20)
+get_response()
