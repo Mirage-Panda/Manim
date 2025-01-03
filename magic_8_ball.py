@@ -41,13 +41,19 @@ def get_response():
     elif category == 3:
         counter = randint(1, 5)
         response = response_negative[counter - 1]
-    print(response)
+    return response
 
 
-# def magic_8_ball():
+def magic_8_ball():
+    print("Ask your question or type 'exit' to quit.")
+    question = input("\nWhat is your question?\n> ")
+    if question.strip().lower() == "exit":
+        print("Goodbye! May the future favour you.")
+    else:
+        loading_bar(duration=4, bar_length=20)
+        print(f"The Magic 8 Ball says:\n{get_response()}")
 
 
-# let's just hope and pray it works…
 def loading_bar(duration=3, bar_length=30):
     start_char_empty = "\uEE00"  # U+EE00 ()
     spacer = "\uEE01"  # U+EE01 ()
@@ -71,7 +77,4 @@ def loading_bar(duration=3, bar_length=30):
     print()
 
 
-# final output
-# magic_8_ball()
-loading_bar(duration=4, bar_length=20)
-get_response()
+magic_8_ball()
