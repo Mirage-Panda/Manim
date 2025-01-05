@@ -60,7 +60,7 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
         self.begin_ambient_camera_rotation(rate=0.05)  # Slow continuous rotation
 
         # Animate the attractor
-        self.play(Create(attractor_path), run_time=15, rate_func=smooth)
+        self.play(Create(attractor_path), run_time=15, rate_func=linear)
 
         # Animation finished indicator
         attractor_path.set_color(GREEN)
