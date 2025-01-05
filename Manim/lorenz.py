@@ -13,9 +13,9 @@ def lorenz_system(t, state, sigma=10, rho=28, beta=8 / 3):  # rho=28
 
 
 # Solve the Lorenz system
-# To slow down, decrease t_max (total time)
-# Original rtol=1e-8
-def generate_lorenz_points(starting_state, t_max=25, dt=0.01):
+# If rtol = 1e-6 and the current value being solved is x = 10, the acceptable error is approximately 10 * 1e-6 = 1e-5.
+# If atol = 1e-9, any error less than this value is acceptable regardless of the magnitude of the solution.
+def generate_lorenz_points(starting_state, t_max=10, dt=0.01):
     t_values = np.arange(0, t_max, dt)
     solution = solve_ivp(
         lorenz_system,
@@ -31,9 +31,11 @@ def generate_lorenz_points(starting_state, t_max=25, dt=0.01):
 class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
 
     def construct(self):
+        # Time for evolution
+        evolution_time = 10
         # Generate points
         starting_state = [10, 10, 10]
-        points = generate_lorenz_points(starting_state)
+        points = generate_lorenz_points(starting_state, t_max=evolution_time)
 
         # Set up axes
         axes = ThreeDAxes(
@@ -60,7 +62,7 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
         self.begin_ambient_camera_rotation(rate=0.05)  # Slow continuous rotation
 
         # Animate the attractor
-        self.play(Create(attractor_path), run_time=15, rate_func=linear)
+        self.play(Create(attractor_path), run_time=evolution_time, rate_func=linear)
 
         # Animation finished indicator
         self.wait(0.5)
