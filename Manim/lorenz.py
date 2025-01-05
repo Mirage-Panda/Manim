@@ -63,7 +63,7 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
         start_dot_2.add_updater(lambda dot: dot.move_to(attractor_path_2.get_end()))
 
         # Add axes and starting points to the scene
-        self.add(axes, start_dot_2, start_dot_1)
+        self.add(axes)
 
         # Add rotation to the camera during the attractor animation
         self.move_camera(
@@ -75,6 +75,7 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
         self.begin_ambient_camera_rotation(rate=0.05)  # Slow continuous rotation
 
         # Animate both attractors
+        self.add(start_dot_2, start_dot_1)
         self.play(
             Create(attractor_path_2),
             Create(attractor_path_1),
@@ -87,9 +88,10 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
         start_dot_2.clear_updaters()
 
         # Animation finished indicator
-        self.wait(0.5)
-        attractor_path_1.set_color(GREEN)
-        attractor_path_2.set_color(YELLOW)
+        attractor_path_1.set_color(TEAL)
+        attractor_path_2.set_color(GREEN)
+        start_dot_1.set_color(TEAL)
+        start_dot_2.set_color(GREEN)
 
         # Speed up camera
         self.stop_ambient_camera_rotation()
