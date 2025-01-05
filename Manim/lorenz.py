@@ -44,7 +44,7 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
             x_range=[-50, 50, 5],
             y_range=[-50, 50, 5],
             z_range=[0, 50, 5],
-            axis_config={"color": GRAY, "stroke_width": 2},
+            axis_config={"color": GRAY, "stroke_width": 2, "include_tip": False},
         )
 
         # Create paths for both attractors
