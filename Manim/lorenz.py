@@ -13,8 +13,6 @@ def lorenz_system(t, state, sigma=10, rho=28, beta=8 / 3):  # rho=28
 
 
 # Solve the Lorenz system
-# If rtol = 1e-6 and the current value being solved is x = 10, the acceptable error is approximately 10 * 1e-6 = 1e-5.
-# If atol = 1e-9, any error less than this value is acceptable regardless of the magnitude of the solution.
 def generate_lorenz_points(starting_state, t_max=10, dt=0.01):
     t_values = np.arange(0, t_max, dt)
     solution = solve_ivp(
@@ -32,10 +30,14 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
 
     def construct(self):
         # Time for evolution
-        evolution_time = 10
-        # Generate points
-        starting_state = [10, 10, 10]
-        points = generate_lorenz_points(starting_state, t_max=evolution_time)
+        evolution_time = 20
+
+        # Generate points for two attractors with slightly different starting states
+        starting_state_1 = [10, 10, 10]
+        starting_state_2 = [10, 10, 10.001]  # Slight variation in the z-coordinate
+
+        points_1 = generate_lorenz_points(starting_state_1, t_max=evolution_time)
+        points_2 = generate_lorenz_points(starting_state_2, t_max=evolution_time)
 
         # Set up axes
         axes = ThreeDAxes(
@@ -45,12 +47,23 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
             axis_config={"color": GRAY, "stroke_width": 2},
         )
 
-        # Create a path for the attractor
-        attractor_path = VMobject(color=BLUE, stroke_width=2)
-        attractor_path.set_points_smoothly([axes.c2p(*point) for point in points])
+        # Create paths for both attractors
+        attractor_path_1 = VMobject(color=BLUE, stroke_width=2)
+        attractor_path_1.set_points_smoothly([axes.c2p(*point) for point in points_1])
 
-        # Add axes to the scene
-        self.add(axes)
+        attractor_path_2 = VMobject(color=RED, stroke_width=2)
+        attractor_path_2.set_points_smoothly([axes.c2p(*point) for point in points_2])
+
+        # Add starting points (dots) for both attractors
+        start_dot_1 = Dot3D(axes.c2p(*points_1[0]), color=BLUE, radius=0.05)
+        start_dot_2 = Dot3D(axes.c2p(*points_2[0]), color=RED, radius=0.05)
+
+        # Add updaters to the dots to follow the end of their respective curves
+        start_dot_1.add_updater(lambda dot: dot.move_to(attractor_path_1.get_end()))
+        start_dot_2.add_updater(lambda dot: dot.move_to(attractor_path_2.get_end()))
+
+        # Add axes and starting points to the scene
+        self.add(axes, start_dot_2, start_dot_1)
 
         # Add rotation to the camera during the attractor animation
         self.move_camera(
@@ -61,15 +74,25 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
         )
         self.begin_ambient_camera_rotation(rate=0.05)  # Slow continuous rotation
 
-        # Animate the attractor
-        self.play(Create(attractor_path), run_time=evolution_time, rate_func=linear)
+        # Animate both attractors
+        self.play(
+            Create(attractor_path_2),
+            Create(attractor_path_1),
+            run_time=evolution_time,
+            rate_func=linear,
+        )
+
+        # Stop updaters after the animation
+        start_dot_1.clear_updaters()
+        start_dot_2.clear_updaters()
 
         # Animation finished indicator
         self.wait(0.5)
-        attractor_path.set_color(GREEN)
+        attractor_path_1.set_color(GREEN)
+        attractor_path_2.set_color(YELLOW)
 
         # Speed up camera
-        self.stop_ambient_camera_rotation
+        self.stop_ambient_camera_rotation()
         self.begin_ambient_camera_rotation(rate=0.1)
         self.wait(0.1)
         self.move_camera(
