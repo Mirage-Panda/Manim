@@ -1,5 +1,5 @@
-from manim import *
 import numpy as np
+from manim import *
 from scipy.integrate import solve_ivp
 
 
@@ -15,15 +15,15 @@ def lorenz_system(t, state, sigma=10, rho=28, beta=8 / 3):  # rho=28
 # Solve the Lorenz system
 # To slow down, decrease t_max (total time)
 # Original rtol=1e-8
-def generate_lorenz_points(starting_state, t_max=20, dt=0.01):
+def generate_lorenz_points(starting_state, t_max=25, dt=0.01):
     t_values = np.arange(0, t_max, dt)
     solution = solve_ivp(
         lorenz_system,
         t_span=(0, t_max),
         y0=starting_state,
         t_eval=t_values,
-        rtol=1e-6,
-        atol=1e-9,
+        rtol=1e-8,
+        atol=1e-10,
     )
     return np.array(solution.y).T  # Transpose to get (x, y, z) points
 
@@ -63,11 +63,17 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
         self.play(Create(attractor_path), run_time=15, rate_func=linear)
 
         # Animation finished indicator
+        self.wait(0.5)
         attractor_path.set_color(GREEN)
 
         # Speed up camera
         self.stop_ambient_camera_rotation
         self.begin_ambient_camera_rotation(rate=0.1)
+        self.wait(0.1)
+        self.move_camera(
+            zoom=1,
+            frame_center=(0, 0, 3),
+        )
 
         # Wait to observe the rotation
         self.wait(10)
