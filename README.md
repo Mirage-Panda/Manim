@@ -1,3 +1,6 @@
+## Media
+### Lorenz Attractor
+![Lorenz Attractor](media/LorenzAttractor.gif)
 ## Roadmap
 > Here are some things I want to create from easy to hard
 - [ ] To-Do List
