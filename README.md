@@ -1,3 +1,7 @@
+## Media
+*Reference command: ffmpeg -i LorenzAttractor.mp4 -vf "fps=30,scale=-1:720:flags=lanczos" -c:v gif LorenzAttractor720p30fps.gif*
+### Lorenz Attractor
+![[media/LorenzAttractor720p30fps.gif]]
 ## Roadmap
 > Here are some things I want to create from easy to hard
 - [ ] To-Do List
