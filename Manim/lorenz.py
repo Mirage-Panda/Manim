@@ -44,7 +44,8 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
         num_curves = 6  # Change to add more curves
         epsilion = 1e-5  # Difference in set of curves
         starting_states = [[10, 10, 10 + n * epsilion] for n in range(num_curves)]
-        colours = color_gradient([BLUE_E, BLUE_A], num_curves)
+        running_colours = color_gradient([BLUE_E, BLUE_A], num_curves)
+        final_colours = color_gradient([TEAL_E, TEAL_A], num_curves)
 
         # Generate points and create paths dynamically
         paths = []
@@ -52,11 +53,13 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
 
         for i, state in enumerate(starting_states):
             points = generate_lorenz_points(state, t_max=evolution_time)
-            path = VMobject(color=colours[i], stroke_width=2)
+            path = VMobject(color=running_colours[i], stroke_width=2)
             path.set_points_smoothly([axes.c2p(*point) for point in points])
             paths.append(path)
 
-            start_dot = Dot3D(axes.c2p(*points[0]), color=colours[i], radius=0.05)
+            start_dot = Dot3D(
+                axes.c2p(*points[0]), color=running_colours[i], radius=0.05
+            )
             start_dot.add_updater(lambda dot, path=path: dot.move_to(path.get_end()))
             start_dots.append(start_dot)
 
@@ -70,7 +73,7 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
             \frac{\mathrm{d} z}{\mathrm{~d} t} & =x y-\beta z
             \end{aligned}
         """,
-            font_size=36,
+            font_size=48,
         )
         lorenz_latex = VGroup(lorenz_title, lorenz_equation).arrange(
             DOWN, aligned_edge=LEFT
@@ -85,7 +88,7 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
         self.play(
             AnimationGroup(FadeOut(lorenz_latex), FadeIn(axes)),
             run_time=1.5,
-            lag_ratio=0.5,
+            lag_ratio=0.75,
         )
 
         # Add rotation to the camera
@@ -109,10 +112,15 @@ class LorenzAttractor(ThreeDScene):  # Use ThreeDScene for 3D rotations
         for dot in start_dots:
             dot.clear_updaters()
 
-        # Change colours to indicate completion
-        # for i, path in enumerate(paths):
-        #     path.set_color(TEAL)
-        #     start_dots[i].set_color(TEAL)
+        # Change running_colours to final_colours to indicate completion
+        self.play(
+            *[path.animate.set_color(final_colours[i]) for i, path in enumerate(paths)],
+            *[
+                dot.animate.set_color(final_colours[i])
+                for i, dot in enumerate(start_dots)
+            ],
+            run_time=2,
+        )
 
         # Adjust camera speed
         self.stop_ambient_camera_rotation()
