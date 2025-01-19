@@ -18,3 +18,8 @@
     - [x] Random response generator
     - [ ] User input
     - [ ] ASCII art
+> Here are some things I want to finish
+- [ ] Manim: wave merge
+    - [x] Render waves
+    - [ ] Make 3D
+- [ ] Manim: fractals (Koch snowflake)
